@@ -1,6 +1,7 @@
 import requests
 from decouple import config
 
+
 def get_city_from_ip(ip_address):
     api_key = config('API_KEY')
     url = f"http://api.ipstack.com/{ip_address}"

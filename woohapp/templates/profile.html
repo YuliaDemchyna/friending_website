@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+{#this is a django template, which i can use variables in, so i can pass variables into here #}
+{#so i can display them if the user has already filled out the template once#}
+
+<form method="post" id="profileForm" action="put in the url id name">
+{% csrf_token %}
+    <h1>Your Profile:</h1>
+
+    <!-- One "tab" for each step in the form: -->
+    <div class="tab">Name:
+        <p><input placeholder="First name..." oninput="this.className = ''"></p>
+        <p><input placeholder="Last name..." oninput="this.className = ''"></p>
+    </div>
+
+    <p>Upload your photo here:</p>
+    <form action="/action_page.php">
+        <input type="file" id="photoFile" name="photo">
+        <input type="submit">
+    </form>
+
+    <div class="tab">About you:
+        <p><input placeholder="Tell us about yourself..." oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">Hobbies and Interests:
+        <p><input placeholder="What do you do in your freetime..." oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">Languages:
+        <p><input placeholder="What languages are you comfortable speaking..." oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">Job:
+        <p><input placeholder="Tittle..." oninput="this.className = ''"></p>
+        <p><input placeholder="Place..." oninput="this.className = ''"></p>
+    </div>
+
+    <div class="tab">Social Media:
+        <p><input placeholder="Instagram..." oninput="this.className = ''"></p>
+        <p><input placeholder="Linkendn..." oninput="this.className = ''"></p>
+    </div>
+
+
+    <body>
+
+    <p>Click on the button to copy your invite code.</p>
+
+    <input type="url" value="Ur code is coming hihi" id="inviteLink">
+    <button onclick="copyInviteLink()">Copy link</button>
+
+    <script>
+        function copyInviteLink() {
+            var copyText = document.getElementById("inviteLink");
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(copyText.value);
+
+            alert("Copied invite link: " + copyText.value);
+        }
+    </script>
+
+    </body>
+
+    <div style="overflow:auto;">
+        <div style="float:right;">
+            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Update</button>
+            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+    </div>
+
+    <!-- Circles which indicates the steps of the form: -->
+    <div style="text-align:center;margin-top:40px;">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+    </div>
+
+
+</form>
+</html>
+
+{#2. photo#}
+{#3. job (required), place (not required)#}
+{#4. hobbies traits, 3 selects, if the same is selected twice, show error#}
+{#5. language your are comfortable speaking, select of all possible language#}
+{#6. social accounts urls, inputs for instagram and linkedin#}
