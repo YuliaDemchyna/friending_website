@@ -12,4 +12,4 @@ class MyUserCreationForm(UserCreationForm):
 #i have to implement forms myself, meaning the logic that dlows f
 # i need to accept the data and handle the data that comes from post, handle errors, update the model
 # work in new html template, new form functions and new views (handle all of the logic in views)
-#
+

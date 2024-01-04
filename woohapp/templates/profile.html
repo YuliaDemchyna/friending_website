@@ -5,13 +5,12 @@
 {#so i can display them if the user has already filled out the template once#}
 
 <form method="post" id="profileForm" action="put in the url id name">
-{% csrf_token %}
+    {% csrf_token %}
     <h1>Your Profile:</h1>
 
     <!-- One "tab" for each step in the form: -->
     <div class="tab">Name:
-        <p><input placeholder="First name..." oninput="this.className = ''"></p>
-        <p><input placeholder="Last name..." oninput="this.className = ''"></p>
+        <p><input placeholder="Your name..." value="{{ user_profile.name|default_if_none:'' }}"></p>
     </div>
 
     <p>Upload your photo here:</p>
@@ -21,33 +20,37 @@
     </form>
 
     <div class="tab">About you:
-        <p><input placeholder="Tell us about yourself..." oninput="this.className = ''"></p>
+        <p><input placeholder="Tell us about yourself..." value="{{ user_profile.about_you|default_if_none:'' }}"></p>
     </div>
 
     <div class="tab">Hobbies and Interests:
-        <p><input placeholder="What do you do in your freetime..." oninput="this.className = ''"></p>
+        <p><input placeholder="What do you do in your freetime..."></p>
     </div>
 
     <div class="tab">Languages:
-        <p><input placeholder="What languages are you comfortable speaking..." oninput="this.className = ''"></p>
+        <p><input placeholder="What languages are you comfortable speaking..."></p>
     </div>
 
     <div class="tab">Job:
-        <p><input placeholder="Tittle..." oninput="this.className = ''"></p>
-        <p><input placeholder="Place..." oninput="this.className = ''"></p>
+        <p><input placeholder="Tittle..." value="{{ user_profile.job|default_if_none:'' }}"></p>
+        <p><input placeholder="Place..." value="{{ user_profile.place|default_if_none:'' }}"></p>
     </div>
 
     <div class="tab">Social Media:
-        <p><input placeholder="Instagram..." oninput="this.className = ''"></p>
-        <p><input placeholder="Linkendn..." oninput="this.className = ''"></p>
+        <p><input placeholder="Instagram..." value="{{ user_profile.instagram_|default_if_none:'' }}"></p>
+        <p><input placeholder="Linkendn..." value="{{ user_profile.linkend|default_if_none:'' }}"></p>
     </div>
 
 
     <body>
 
-    <p>Click on the button to copy your invite code.</p>
+      <div class="tab">Your invite code used:
+        <p><input placeholder="Your code used..." value="{{ user_profile.invite_code_used|default_if_none:'' }}"></p>
+    </div>
 
-    <input type="url" value="Ur code is coming hihi" id="inviteLink">
+    <p>Click on the button to copy your invite code:</p>
+
+    <input type="text" value="{{ request.scheme }}://{{ request.get_host }}/?invite_code={{ user_profile.unique_invite_code }}" id="inviteLink">
     <button onclick="copyInviteLink()">Copy link</button>
 
     <script>

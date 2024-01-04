@@ -21,6 +21,13 @@ class MyUser(AbstractUser):
     # photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     # not sure how to implement it yet
 
+    username = models.CharField(
+        max_length=150,
+        unique=True,
+        blank=True,
+        null=True,
+    )
+
     # Job and Place
     job = models.CharField(max_length=200)
     place = models.CharField(max_length=200, blank=True, null=True)
@@ -46,15 +53,18 @@ class MyUser(AbstractUser):
     #
     def __str__(self):
         return self.email
-    #
 
-    #     def save(self, *args, **kwargs):
-    #         # Code to generate unique_invite_code
-    #         # Ensure the code is unique before saving
-    #         if not self.unique_invite_code:
-    #             self.unique_invite_code = generate_unique_code()
-    #         super(UserProfileimp, self).save(*args, **kwargs)
     #
+    ### the users unique invite code does not get saved, i dont know whats wrong with the save function
+    def save(self, *args, **kwargs):
+        if not self.unique_invite_code:
+            # Generate the code only if it doesn't already exist
+            self.unique_invite_code = generate_unique_code()
+            # Ensure uniqueness of the code
+            while MyUser.objects.filter(unique_invite_code=self.unique_invite_code).exists():
+                self.unique_invite_code = generate_unique_code()
+
+        super(MyUser, self).save(*args, **kwargs)
 
 
 def generate_unique_code():

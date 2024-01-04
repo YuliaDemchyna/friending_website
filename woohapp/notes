@@ -1,0 +1,22 @@
+ABOUT FORMS
+form is a class, they typically handle what kind of fileds will be displayed in html
+it validaits it, and you can use the instance to display the fields in html
+and if use model form, it also gets methods to control creation and updated to the model
+so i would pass a form as a variable(can ofc be named whatever) in templates to display it
+
+when you create a model or update - the method save() is executed
+
+
+ABOUT QUERYSTRINGS
+Structure: A query string starts with a question mark (?) and is followed by key-value pairs.
+Each pair is separated by an ampersand (&). Fe: ?key1=value1&key2=value2.
+
+Usage in URLs: Query strings are appended to the end of a URL.
+They are used after the domain and path of the URL.
+For instance, http://example.com/page?param=value.
+
+Data Transmission: They transmit data to the server as part of a GET request. This data can be used by the server
+
+Encoding: Characters in query strings are URL-encoded.
+Spaces are replaced with + or %20,
+and special characters are encoded with % followed by two hexadecimal digits.

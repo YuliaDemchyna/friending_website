@@ -56,12 +56,16 @@
             <div style="width: 1010px; text-align: center; color: black; font-size: 76px; font-family: Space Grotesk; font-weight: 500; line-height: 67.70px; word-wrap: break-word">
                 Find your Local International Friends in {{ user_city }}
             </div>
-            <a href='register/'>
-                <div style="padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
-                    <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
-                        Join Now
-                    </div>
+            {% if invite_code %}
+                <a href="register/?invite_code={{ invite_code }}">
+            {% else %}
+                <a href="register/">
+            {% endif %}
+            <div style="padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
+                    Join Now
                 </div>
+            </div>
             </a>
         </div>
         <div style="left: 201px; top: 2207px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; gap: 32px; display: inline-flex">
@@ -262,12 +266,17 @@
                     Ready to End Swipe-Matching Friendship?
                 </div>
             </div>
-            <a href='register/'>
-                <div style="padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
-                    <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
-                        Join Now
-                    </div>
+
+            {% if invite_code %}
+                <a href="register/?invite_code={{ invite_code }}">
+            {% else %}
+                <a href="register/">
+            {% endif %}
+            <div style="padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
+                    Join Now
                 </div>
+            </div>
             </a>
         </div>
         <div style="height: 100.98px; left: 558px; top: 808px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
@@ -319,12 +328,17 @@
             </div>
         </div>
         <div style="width: 1380px; left: 30px; top: 20px; position: absolute">
-            <a href='register/'>
-                <div style="width: 128px; height: 40px; padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; left: 1252px; top: 1px; position: absolute; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
-                    <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
-                        Join Now
-                    </div>
+
+            {% if invite_code %}
+                <a href="register/?invite_code={{ invite_code }}">
+            {% else %}
+                <a href="register/">
+            {% endif %}
+            <div style="width: 128px; height: 40px; padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; left: 1252px; top: 1px; position: absolute; background: black; border-radius: 8px; overflow: hidden; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+                <div style="color: white; font-size: 14px; font-family: Space Grotesk; font-weight: 500; text-transform: uppercase; letter-spacing: 0.28px; word-wrap: break-word">
+                    Join Now
                 </div>
+            </div>
             </a>
             <div style="width: 440px; height: 42px; padding: 4px; left: 470px; top: 0px; position: absolute; background: #EBEBEB; border-radius: 8px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
                 <div style="flex: 1 1 0; align-self: stretch; padding-left: 30px; padding-right: 30px; padding-top: 11px; padding-bottom: 11px; background: white; border-radius: 8px; overflow: hidden; border: 1px #DDDDDD solid; justify-content: center; align-items: center; gap: 10px; display: flex">
