@@ -20,3 +20,7 @@ Data Transmission: They transmit data to the server as part of a GET request. Th
 Encoding: Characters in query strings are URL-encoded.
 Spaces are replaced with + or %20,
 and special characters are encoded with % followed by two hexadecimal digits.
+
+
+
+CREATING A MANUAL FORM for profile

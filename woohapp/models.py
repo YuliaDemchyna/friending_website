@@ -6,6 +6,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import random, string
+from cloudinary.models import CloudinaryField
 
 
 class Language(models.Model):
@@ -13,7 +14,6 @@ class Language(models.Model):
 
     def __str__(self):
         return self.name
-
 
 # cre
 class MyUser(AbstractUser):
@@ -28,39 +28,36 @@ class MyUser(AbstractUser):
         null=True,
     )
 
-    # Job and Place
+    name = models.CharField(max_length=200)
+    age = models.IntegerField(blank=True, null=True)
+
+    about_you = models.CharField(max_length=200)
+
+    profile_picture = CloudinaryField('profile_picture')
+
     job = models.CharField(max_length=200)
     place = models.CharField(max_length=200, blank=True, null=True)
 
-    # Personality Traits
-    hobbie_one = models.CharField(max_length=50)
-    hobbie_two = models.CharField(max_length=50)
-    hobbie_three = models.CharField(max_length=50)
+    hobbies = models.CharField(max_length=2000, default='')
 
-    # Languages
     languages = models.ManyToManyField(Language)
-    #     # Social Accounts
+
     instagram_url = models.URLField(blank=True, null=True)
     linkedin_url = models.URLField(blank=True, null=True)
-    #
-    #     # Invitation Code Used by the User
+
     invite_code_used = models.CharField(max_length=10, blank=True, null=True)
 
-    #
-    #     # User's Unique Invite Code
     unique_invite_code = models.CharField(max_length=6, unique=True)
 
     #
     def __str__(self):
         return self.email
 
-    #
-    ### the users unique invite code does not get saved, i dont know whats wrong with the save function
+
     def save(self, *args, **kwargs):
         if not self.unique_invite_code:
-            # Generate the code only if it doesn't already exist
             self.unique_invite_code = generate_unique_code()
-            # Ensure uniqueness of the code
+
             while MyUser.objects.filter(unique_invite_code=self.unique_invite_code).exists():
                 self.unique_invite_code = generate_unique_code()
 

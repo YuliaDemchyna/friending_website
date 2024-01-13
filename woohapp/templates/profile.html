@@ -3,59 +3,185 @@
 
 {#this is a django template, which i can use variables in, so i can pass variables into here #}
 {#so i can display them if the user has already filled out the template once#}
-
-<form method="post" id="profileForm" action="put in the url id name">
+{##}
+<form method="post" id="profileForm" enctype="multipart/form-data" action="{% url 'profile' %}">
     {% csrf_token %}
     <h1>Your Profile:</h1>
 
     <!-- One "tab" for each step in the form: -->
     <div class="tab">Name:
-        <p><input placeholder="Your name..." value="{{ user_profile.name|default_if_none:'' }}"></p>
+        <p><input placeholder="Your name..." value="{{ name }}" id="name" name="name"/></p>
+        {% if errors.name %}
+            <div class="error-message">{{ errors.name }}</div>
+        {% endif %}
     </div>
 
-    <p>Upload your photo here:</p>
-    <form action="/action_page.php">
-        <input type="file" id="photoFile" name="photo">
-        <input type="submit">
-    </form>
-
+    <div class="tab">Your age:
+        <p><input placeholder="Your age..." value="{{ age }}" name="age"></p>
+        {% if errors.age %}
+            <div class="error-message">{{ errors.age }}</div>
+        {% endif %}
+    </div>
+    <div class="tab">Profile picture:
+        {% if user_profile.profile_picture %}
+            <p><img src="{{ user_profile.profile_picture.url }}" alt="Profile Image" width="100"/></p>
+            <p>To replace your profile picture:</p>
+            <p><input type="file" id="profile_picture" name="profile_picture"></p>
+        {% else %}
+            <p><input type="file" id="profile_picture" name="profile_picture"></p>
+            {% if errors.profile_picture %}
+                <div class="error-message">{{ errors.age }}</div>
+            {% endif %}
+        {% endif %}
+    </div>
     <div class="tab">About you:
-        <p><input placeholder="Tell us about yourself..." value="{{ user_profile.about_you|default_if_none:'' }}"></p>
+        <p><input placeholder="Tell us about yourself..." value="{{ about_you }}" name="about_you"></p>
+        {% if errors.about_you %}
+            <div class="error-message">{{ errors.about_you }}</div>
+        {% endif %}
     </div>
+    {##}
+    {#    <div class="tab">Hobbies and Interests:#}
+    {#        <p><input placeholder="What do you do in your freetime..."></p>#}
+    {#    </div>#}
+    {##}
 
-    <div class="tab">Hobbies and Interests:
-        <p><input placeholder="What do you do in your freetime..."></p>
-    </div>
+<div class="tab">Languages:
+    <p>
+        <select class="language-select" name="languages" multiple="multiple">
+            {% for language in languages %}
+                <option value="{{ language.id }}" {% if language.id in selected_language_ids %}selected{% endif %}>
+                    {{ language.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </p>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.language-select').select2({
+            theme: 'bootstrap',
+            placeholder: 'Select Languages',
+            allowClear: true,
+            width: '100%'  // Adjusts width to fit container
+        });
+    });
+</script>
 
-    <div class="tab">Languages:
-        <p><input placeholder="What languages are you comfortable speaking..."></p>
-    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const hobbiesList = [
+        "Reading", "Traveling", "Cooking", "Hiking", "Photography",
+        "Yoga", "Gardening", "Cycling", "Music", "Painting",
+        "Dancing", "Writing", "Swimming", "Netflix", "Gym"
+    ];
+    const container = document.getElementById('hobbies-container');
+    const hiddenInput = document.getElementById('selected-hobbies');
+    const initialSelectedHobbies = hiddenInput.value.split(',');
+
+    hobbiesList.forEach(hobby => {
+        // Create bubble for each hobby
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.textContent = hobby;
+        container.appendChild(bubble);
+
+        // Pre-select bubble if it's in the initialSelectedHobbies
+        if (initialSelectedHobbies.includes(hobby)) {
+            bubble.classList.add('selected');
+        }
+
+        // Add click event listener to each bubble
+        bubble.addEventListener('click', () => {
+            bubble.classList.toggle('selected');
+            updateHiddenInput(hobby);
+        });
+    });
+
+    function updateHiddenInput(hobby) {
+        // Get current value of hidden input
+        let selectedHobbies = hiddenInput.value ? hiddenInput.value.split(',') : [];
+
+        if (selectedHobbies.includes(hobby)) {
+            // Remove hobby if it is already selected
+            selectedHobbies = selectedHobbies.filter(h => h !== hobby);
+        } else {
+            // Add hobby if it is not selected
+            selectedHobbies.push(hobby);
+        }
+
+        // Update hidden input value
+        hiddenInput.value = selectedHobbies.join(',');
+    }
+});
+</script>
+
+    <style>
+        .bubble {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 1px solid #ddd;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .bubble.selected {
+            background-color: #e791ae;
+            color: #020101;
+        }
+    </style>
+
+
+    <div id="hobbies-container"></div>
+    <input type="hidden" value="{{ hobbies }}" id="selected-hobbies" name="selectedHobbies">
+
 
     <div class="tab">Job:
-        <p><input placeholder="Tittle..." value="{{ user_profile.job|default_if_none:'' }}"></p>
-        <p><input placeholder="Place..." value="{{ user_profile.place|default_if_none:'' }}"></p>
+        <p><input placeholder="Tittle..." value="{{ job }}" name="job"></p>
+        {% if errors.job %}
+            <div class="error-message">{{ errors.job }}</div>
+        {% endif %}
+        <p><input placeholder="Place..." value="{{ place }}" name="place"></p>
+        {% if errors.place %}
+            <div class="error-message">{{ errors.place }}</div>
+        {% endif %}
     </div>
 
     <div class="tab">Social Media:
-        <p><input placeholder="Instagram..." value="{{ user_profile.instagram_|default_if_none:'' }}"></p>
-        <p><input placeholder="Linkendn..." value="{{ user_profile.linkend|default_if_none:'' }}"></p>
+        <p><input placeholder="Instagram..." name="instagram_url" value="{{ instagram_url }}"></p>
+        {% if errors.instagram_url %}
+            <div class="error-message">{{ errors.place }}</div>
+        {% endif %}
+        <p><input placeholder="Linkendn..." name="linkedin_url" value="{{ linkedin_url }}"></p>
+        {% if errors.linkedin_url %}
+            <div class="error-message">{{ errors.linkedin_url }}</div>
+        {% endif %}
     </div>
 
-
-    <body>
-
-      <div class="tab">Your invite code used:
+    <div class="tab">Your invite code used:
         <p><input placeholder="Your code used..." value="{{ user_profile.invite_code_used|default_if_none:'' }}"></p>
     </div>
 
-    <p>Click on the button to copy your invite code:</p>
+    <div class="tab">Click on the button to copy your invite code:
+        <p><input type="text" value="{{ user_profile.unique_invite_code }}" id="inviteCode"></p>
+        <input type="text"
+               value="{{ request.scheme }}://{{ request.get_host }}/?invite_code={{ user_profile.unique_invite_code }}"
+               id="fullInviteLink" style="display: none;">
+        <button onclick="copyInviteLink()">Copy link</button>
+    </div>
 
-    <input type="text" value="{{ request.scheme }}://{{ request.get_host }}/?invite_code={{ user_profile.unique_invite_code }}" id="inviteLink">
-    <button onclick="copyInviteLink()">Copy link</button>
 
     <script>
         function copyInviteLink() {
-            var copyText = document.getElementById("inviteLink");
+            var copyText = document.getElementById("fullInviteLink");
 
             copyText.select();
             copyText.setSelectionRange(0, 99999);
@@ -66,23 +192,12 @@
         }
     </script>
 
-    </body>
 
     <div style="overflow:auto;">
         <div style="float:right;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Update</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            <button type="submit">Next page</button>
         </div>
     </div>
-
-    <!-- Circles which indicates the steps of the form: -->
-    <div style="text-align:center;margin-top:40px;">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-    </div>
-
 
 </form>
 </html>
@@ -92,3 +207,26 @@
 {#4. hobbies traits, 3 selects, if the same is selected twice, show error#}
 {#5. language your are comfortable speaking, select of all possible language#}
 {#6. social accounts urls, inputs for instagram and linkedin#}
+
+<link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-theme/dist/select2-bootstrap.min.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+
+    .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
+        background-color: #f7f7f7;
+        border-color: #c3c3c3;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+
+    /* Additional styling can go here */
+</style>
