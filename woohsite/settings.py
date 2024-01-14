@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-a=g!#ymhe*p0%e68ekp8@_3rox@&%hlum33)uc@j-cg9=h$akr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', 'localhost', '0.0.0.0']
 
 # Application definition
 
@@ -137,3 +137,6 @@ cloudinary.config(
     type="upload",
     api_secret=config('CLOUDINARY_SECRET')
 )
+
+import django_heroku
+django_heroku.settings(locals())
