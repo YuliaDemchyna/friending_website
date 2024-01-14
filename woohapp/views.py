@@ -55,6 +55,7 @@ def profile(request):
         profile_picture = request.FILES.get('profile_picture')
         about_you = request.POST.get('about_you', None)
         selected_language_ids = request.POST.getlist('languages', [lang.id for lang in user_profile.languages.all()])
+        selected_language_ids = [int(x) for x in selected_language_ids]
         selected_hobbies = request.POST.get('selectedHobbies', '')
         job = request.POST.get('job', None)
         place = request.POST.get('place', None)
@@ -116,6 +117,13 @@ def profile(request):
         if not validate_url(linkedin_url):
             errors['linkedin_url'] = "Invalid URL."
 
+        user_profile.languages.clear()
+        print(selected_language_ids)
+        for language_id in selected_language_ids:
+            language = Language.objects.get(id=language_id)
+            print(language)
+            user_profile.languages.add(language)
+
         if not errors:
             user_profile.name = name
             user_profile.age = int(age) if age.isdigit() else None
@@ -127,8 +135,10 @@ def profile(request):
             user_profile.hobbies = selected_hobbies
 
             user_profile.languages.clear()
+            print(selected_language_ids)
             for language_id in selected_language_ids:
                 language = Language.objects.get(id=language_id)
+                print(language)
                 user_profile.languages.add(language)
 
             user_profile.save()
@@ -150,6 +160,7 @@ def profile(request):
                    }
         return render(request, 'profile.html', context)
 
+    print(user_profile.languages.all())
     # for the GET request
     context = {'user_profile': user_profile,
                'name': user_profile.name,
